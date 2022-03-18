@@ -1,7 +1,0 @@
-<section class="testimonial">
-    <h3>Nos clients</h3>
-    {% for temoignage in temoignages|slice(0, 3) %}
-        {{ block('lien_temoignage', 'pages/_modules/liens.html.twig') }}
-    {% endfor %}
-    <a href="/temoignage/" class="btn primary green grow center full">Voir tous les témoignages</a>
-</section>

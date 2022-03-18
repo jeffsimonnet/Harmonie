@@ -1,7 +1,0 @@
-<section class="videos">
-    <h3>Nos videos</h3>
-    {% for video in videos|slice(0, 3) %}
-        {{ block('lien_video', 'pages/_modules/liens.html.twig') }}
-    {% endfor %}
-    <a href="/videos/" class="btn primary green grow center full">Voir toutes les vidéos</a>
-</section>

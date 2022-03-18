@@ -1,9 +1,0 @@
-<p>Demande de devis par le site internet</p>
-
-<p>Un visiteur a rempli les champs suivants :</p>
-<ul>
-    {% for k in ['nom', 'prenom', 'email', 'telephone', 'adresse', 'code_postal', 'ville', 'type_bien', 'lots', 'description'] %}
-        {% set v = infos[k] %}
-        <li>{{ k }} : {{ v|striptags|raw }}
-        {% endfor %}
-</ul>
