@@ -1,0 +1,147 @@
+{% if form is defined %}
+    {{ form_start(form,{attr:{onsubmit:"submitContact(this);return false;"}}) }}
+    <div class="errors | full">{{ form_errors(form) }}</div>
+
+    <div class="full"></div>
+    {{ form_row(form.civilite) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.prenom) }}
+    <div class="full"></div>
+    <div class="full input-geo"><label>Adresse du bien* : <input style="opacity: 0; position: absolute" /><input id="input-geo-address" type="text" autocomplete="new-password" placeholder="Votre localisation" required="required"></label></div>
+    <div class="full input-map"></div>
+    <div class="full input-geo2">&gt; Si vous n’êtes pas localisé, <a href="javascript:;">accédez au détail de votre adresse.</a>
+        <div style="display:none;">
+            {{ form_row(form.adresse) }}
+            {{ form_row(form.code_postal) }}
+            {{ form_row(form.ville) }}
+        </div>
+    </div>
+    <div class="full"></div>
+    {{ form_row(form.telephone, {row_attr : {class: "half"}}) }}
+    {{ form_row(form.email, {row_attr : {class: "half"}}) }}
+    <div class="full"></div>
+    {{ form_row(form.nb_logements, {row_attr : {class: "half"}}) }}
+    {{ form_row(form.commentaire, {row_attr : {class: "full"}}) }}
+
+    <div class="full small">*Champs obligatoires</div>
+
+    <div class="full">
+        <p style="font-size:86%;">{{form_widget(form.accept_conditions)}} En soumettant ce formulaire, j'accepte que les informations que je saisis soient utilisées dans le cadre du traitement de ma demande et de la relation commerciale qui peut en découler.<br>Si ma demande ne peut être traitée, j'autorise Harmonie à transmettre mes coordonnées à une société à même de l'instruire.<br>Pour connaître et exercer vos droits, veuillez <a href="/mentions-legales/">consulter notre politique de confidentialité.</a></p>
+    </div>
+
+    <div class="full center">
+        {{ form_widget(form.recaptcha, {label: 'ENVOYER LA DEMANDE', attr: {class : 'btn primary send_contact'}}) }}
+    </div>
+    <div class="full center"><br><br>
+        NOTE : Nous ne répondons pas aux demandes concernant les maisons individuelles.
+    </div>
+    {{ form_end(form) }}
+    <script>
+        let map;
+        let marker = null;
+
+        function initMap() { // callback for Google Places API
+            window.geocoder = new google.maps.Geocoder();
+            const options = {
+                componentRestrictions: {country: "fr"},
+                fields: ["address_components", "geometry"],
+                types: ['address'],
+                strictBounds: false
+            };
+            const autocomplete = new google.maps.places.Autocomplete(document.querySelector("#input-geo-address"), options);
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+                const places_data = consolidatePlace(place);
+                let adresse = (!!places_data.street_number) ? places_data.street_number.long_name + ' ' : '';
+                if (!!places_data.route)
+                    adresse += places_data.route.long_name;
+                document.querySelector("#contact_adresse").value = adresse;
+                document.querySelector("#contact_code_postal").value = places_data.postal_code.long_name;
+                document.querySelector("#contact_ville").value = places_data.locality.long_name;
+
+                if (!marker) {
+                    marker = new google.maps.Marker({
+                        position: place.geometry.location,
+                        map
+                    });
+                } else {
+                    marker.setPosition(place.geometry.location);
+                }
+
+                map.setCenter(place.geometry.location);
+                map.setZoom(16);
+            });
+
+            map = new google.maps.Map(document.querySelector(".input-map"), {
+                center: {lat: 46.52863469527167, lng: 2.43896484375},
+                zoom: 5,
+                streetViewControl: false,
+                mapTypeControl: false,
+                fullscreenControl: false
+            });
+        }
+
+        function consolidatePlace(place) {
+            var components_by_type = {};
+            for (var i = 0; i < place.address_components.length; i++) {
+                var c = place.address_components[i];
+                components_by_type[c.types[0]] = c;
+            }
+            return components_by_type;
+        }
+
+        function getLocation(handler) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                        handler//,
+                        // () => {
+                        //     alert("Impossible de trouver votre position !");
+                        // }
+                        );
+            } else {
+                alert("Votre navigateur ne supporte pas le service !");
+            }
+        }
+
+        function geocodeLatLng(geocoder, position, input) {
+            const latlng = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            geocoder.geocode({location: latlng}, (results, status) => {
+                if (status === "OK") {
+                    if (results[0]) {
+                        input.value = "Done"; // TODO
+                    } else {
+                        window.alert("Aucun résultat trouvé !");
+                    }
+                } else {
+                    window.alert("Impossible de retrouver votre adresse à partir de votre position ! Cause : " + status);
+                }
+            });
+        }
+
+        let linkShow = document.querySelector(".input-geo2 a");
+        linkShow.addEventListener("click", function () {
+            let next = this.nextElementSibling;
+            if (next.style.display === "none") {
+                next.style.display = 'block';
+                this.innerHTML = "fermer le détail de votre adresse";
+            } else {
+                next.style.display = 'none';
+                this.innerHTML = "accédez au détail de votre adresse";
+            }
+        });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ app.request.server.get('PLACES_API_KEY') }}&callback=initMap&libraries=places&v=weekly" async></script>
+{% else %}
+    <form>
+        <div class="full">{{message}}</div>
+        <div class="full"><a href="javascript:window.history.go(-1);">Retour au formulaire</a></div>
+        <script>
+        window.addEventListener("load", (event) => {
+            typeof ga != 'undefined' && ga('send', 'pageview', '/contact.html');
+        });
+        </script>
+    </form>
+{% endif %}

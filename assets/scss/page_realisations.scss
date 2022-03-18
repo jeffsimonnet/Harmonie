@@ -1,0 +1,328 @@
+main.realisations {
+
+    section.liste-realisations {
+        margin-top: -2em !important;
+
+        div.menu-mobile,
+        div.menu {
+            grid-column    : 1/-1;
+            display        : flex;
+            justify-content: center;
+            user-select    : none;
+
+            &>ul {
+                width       : auto;
+                display     : inline-flex;
+                padding-left: 1px;
+
+                &>li {
+                    margin     : 0;
+                    margin-left: -1px;
+                    position   : relative;
+                    background : $color1;
+                    border     : solid 1px #CCC;
+                    z-index    : 1;
+
+                    a {
+                        padding    : 1em;
+                        user-select: none;
+                        display    : flex;
+                        align-items: center;
+
+                        &::before {
+                            @include icomoon(south, ' ');
+                            order: 3;
+                        }
+
+                        &::after {
+                            content  : "";
+                            display  : inline-block;
+                            order    : 2;
+                            width    : 1.7em;
+                            font-size: 0.8em;
+                            margin   : 0 0.5em;
+                        }
+
+                        &[data-count]::after {
+                            content      : attr(data-count);
+                            width        : 1.7em;
+                            height       : 1.7em;
+                            line-height  : 1.7em;
+                            color        : $color1;
+                            background   : $color20;
+                            text-align   : center;
+                            border-radius: 100%;
+                        }
+                    }
+
+                    &>div {
+                        display   : none;
+                        background: $color1;
+                        padding   : 1em;
+
+                        .input-search {
+                            margin-bottom: 0.5em;
+                        }
+
+                        label {
+                            white-space: nowrap;
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        .data {
+            display: contents;
+
+            .realisation {
+                grid-column: 1/-1;
+            }
+        }
+
+        @include breakpoint(medium) {
+            .data {
+                .realisation {
+                    grid-column: span 4;
+                }
+            }
+        }
+
+        @include breakpoint(large, false) {
+            div.menu-mobile {
+                display: flex;
+
+                &>ul {
+                    &>li {
+                        border-radius: 5px;
+
+                        a {
+                            &::before {
+                                content: "";
+                                @include picto_svg($svg-settings, 1em, 1em);
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.menu {
+                display: none;
+
+                &.view {
+                    position       : fixed;
+                    top            : 0;
+                    bottom         : 0;
+                    left           : 0;
+                    right          : 0;
+                    display        : flex;
+                    flex-direction : column;
+                    justify-content: flex-start;
+                    background     : $color1;
+                    z-index        : 10000;
+                    overflow       : hidden;
+                    padding-bottom : 3em;
+
+                    &>ul {
+                        flex-direction: column;
+                        padding       : 0 1em;
+
+                        &>li {
+                            border       : none;
+                            border-bottom: solid 1px #CCC;
+
+                            a {
+                                &::after {
+                                    margin-left: auto;
+                                }
+                            }
+
+                            &.open {
+                                a {
+                                    border-bottom: solid 1px $color30;
+                                }
+
+                                div {
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+
+                    &>div:first-of-type {
+                        position  : sticky;
+                        top       : 0;
+                        background: $color36;
+                        font-size : 1.1em;
+                        padding   : 1em;
+
+                        &>a:first-of-type {
+                            font-size     : 2em;
+                            line-height   : 1rem;
+                            display       : inline-block;
+                            vertical-align: sub;
+                        }
+
+                        &>a:last-of-type {
+                            float: right;
+                        }
+                    }
+
+                    &>div:last-of-type {
+                        position  : fixed;
+                        bottom    : 0;
+                        text-align: center;
+                        width     : 100%;
+                        padding   : 0.5em;
+                        box-shadow: 0px -3px 6px 0px #0002;
+                    }
+                }
+            }
+        }
+
+        @include breakpoint(large) {
+
+            div.menu-mobile,
+            div.menu>div {
+                display: none;
+            }
+
+            div.menu {
+                &>ul {
+                    &>li {
+                        &>div {
+                            order    : 0;
+                            position : absolute;
+                            top      : 100%;
+                            left     : -1px;
+                            min-width: 15em;
+                            z-index  : 100;
+                            border   : solid 1px $color15;
+                        }
+
+                        &.open>div {
+                            display: initial;
+                        }
+
+                        &:first-of-type {
+                            border-top-left-radius   : 5px;
+                            border-bottom-left-radius: 5px;
+
+                            &.open>div {
+                                left: 4px;
+                            }
+                        }
+
+                        &:last-of-type {
+                            border-top-right-radius   : 5px;
+                            border-bottom-right-radius: 5px;
+
+                            &.open>div {
+                                right     : 4px;
+                                left      : auto;
+                                max-height: 30em;
+                                overflow-y: auto;
+                            }
+                        }
+
+                        &:hover,
+                        &.open {
+                            z-index: 2;
+                            border : solid 1px $color30;
+
+                            a[href] {
+                                color: $color30;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.details {
+        section.slideshow {
+            margin-top   : 3em;
+            margin-bottom: 0;
+
+            .sliding {
+                height: 500px;
+
+                &>* {
+                    object-fit: cover;
+                }
+            }
+        }
+
+        section.content {
+            .infos {
+                padding      : 2em;
+                background   : $color16;
+                border-bottom: solid 4px $color20;
+
+                .prev,
+                .next {
+                    display: none;
+                }
+            }
+        }
+
+        @include breakpoint(medium) {
+            section.content {
+                margin-top: 0;
+
+                .text {
+                    order      : 1;
+                    grid-column: span 8;
+                    text-align : justify;
+                }
+
+                .infos {
+                    order      : 2;
+                    grid-column: span 4;
+                    height     : max-content;
+                    margin-top : -7em;
+                    z-index    : 100;
+                    position   : relative;
+
+                    .prev,
+                    .next {
+                        width          : 3em;
+                        height         : 3em;
+                        background     : $color20;
+                        position       : absolute;
+                        top            : -3em;
+                        display        : flex;
+                        justify-content: center;
+                        align-items    : center;
+                        color          : $color1;
+                        font-weight    : $font-bold;
+                    }
+
+                    .prev {
+                        left: 0;
+
+                        &::before {
+                            @include icomoon(west);
+                        }
+                    }
+
+                    .next {
+                        right: 0;
+
+                        &::before {
+                            @include icomoon(east);
+                        }
+                    }
+
+                    ul {
+                        margin : 0;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+}

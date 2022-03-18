@@ -1,0 +1,15 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Import témoignage{% endblock %}
+
+{% block content %}
+    <div class="bloc | grid-span-12-col">
+        <div class="heading">
+            <h3>Import témoignage</h3>
+            <a href="{{ path('admin_import_blog_index') }}">Retour <span>à la liste</span> &#8634;</a>
+        </div>
+        <div class="content">
+            {{ include('_document/page/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

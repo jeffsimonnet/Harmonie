@@ -1,0 +1,735 @@
+body.page {
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
+
+    header,
+    nav,
+    main,
+    footer {
+        width: 100%;
+
+        &>section,
+        menu,
+        .main-grid {
+            display              : grid;
+            grid-template-columns: 1fr;
+            grid-gap             : 1rem;
+            justify-content      : center;
+            padding              : 0 1rem;
+
+            @include breakpoint(large) {
+                grid-gap             : 1.25rem;
+                grid-template-columns: repeat(12, 66px);
+                padding              : 0;
+            }
+
+            .full {
+                grid-column: 1/-1;
+            }
+
+            .half {
+                grid-column: span 6;
+            }
+
+        }
+    }
+
+    main>section {
+        margin: 3em auto;
+    }
+
+    nav {
+        background: $color10;
+
+        &>section {
+            position             : relative;
+            height               : 70px;
+            align-items          : center;
+            grid-template-columns: repeat(3, 1fr);
+
+            @include breakpoint(large) {
+                grid-template-columns: repeat(12, 1fr);
+            }
+
+            @include breakpoint(xlarge) {
+                grid-template-columns: 1fr repeat(12, 66px) 1fr;
+            }
+
+            // Disables the before and after
+            &::before,
+            &::after {
+                content: none;
+            }
+
+            a.logo {
+                display    : block;
+                margin     : 0 auto;
+                text-indent: -9999px;
+                @include picto_svg($img-logo, 56px, 56px);
+                background-size: auto 100%;
+            }
+
+            @include breakpoint(large) {
+                a.logo {
+                    margin-inline-start: 2em;
+                }
+
+                // This makes the menu size to be calculated with the bold font. Otherwise, we get a layout shift when we hover
+                a[label] {
+                    text-align: center;
+
+                    &::before {
+                        content    : attr(label);
+                        display    : block;
+                        height     : 0;
+                        overflow   : hidden;
+                        visibility : hidden;
+                        font-weight: $font-bold;
+                    }
+                }
+            }
+
+            .menu-mobile {
+                height  : 24px;
+                width   : 34px;
+                position: relative;
+                cursor  : pointer;
+
+                @include breakpoint(large) {
+                    display: none;
+                }
+
+                &:before {
+                    content      : "";
+                    position     : absolute;
+                    top          : 0;
+                    left         : 0;
+                    height       : 100%;
+                    width        : 100%;
+                    border-top   : $color1 solid 4px;
+                    border-bottom: $color1 solid 4px;
+                    border-radius: 1px;
+                    box-sizing   : border-box;
+                    transition   : all ease .3s;
+                }
+
+                &:after {
+                    content   : "";
+                    position  : absolute;
+                    top       : 50%;
+                    left      : 0;
+                    height    : 4px;
+                    width     : 100%;
+                    margin-top: -2px;
+                    background: $color1;
+                    transition: all ease .2s;
+                }
+            }
+
+            ul.menu {
+                display    : block;
+                user-select: none;
+                position   : absolute;
+                left       : -100%;
+                z-index    : 100;
+                background : #3B3B3B;
+                top        : 70px;
+                width      : 100%;
+                height     : 500px;
+                transition : left ease .3s;
+                box-sizing : border-box;
+                overflow   : hidden;
+
+                @include breakpoint(medium) {
+                    width: 50%;
+                }
+
+                @include breakpoint(large) {
+                    display: flex !important;
+                    grid-column: span 8;
+
+                    position  : static;
+                    background: inherit;
+                    width     : inherit;
+                    padding   : 0;
+                    height    : 100%;
+                    overflow  : visible;
+                }
+
+                menu {
+                    display   : block;
+                    background: $color10;
+                    top       : -14px;
+                    left      : 100%;
+                    width     : 100%;
+                    position  : absolute;
+                    transition: all ease .3s;
+                    z-index   : 101;
+                    box-sizing: border-box;
+                    padding   : 0;
+
+                    @include breakpoint(large) {
+                        display : none;
+                        position: static;
+                        width   : inherit;
+                        top     : inherit;
+                    }
+
+                    li {
+                        border-bottom: 1px solid $color11;
+
+                        &:first-child {
+                            border-top: 1px solid $color11;
+                        }
+
+                        @include breakpoint(large) {
+                            border-bottom: none;
+
+                            &:first-child {
+                                border-top: none;
+                            }
+                        }
+
+                        &.back {
+                            @include breakpoint(large) {
+                                display: none !important;
+                            }
+
+                            a {
+                                &:after {
+                                    content       : "";
+                                    width         : 12px;
+                                    height        : 12px;
+                                    border-top    : 2px solid $color1;
+                                    border-right  : 2px solid $color1;
+                                    border-radius : 1px;
+                                    transform     : rotate(225deg);
+                                    position      : absolute;
+                                    right         : 1rem;
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &>li {
+                    border-bottom: 1px solid $color11;
+                    text-align   : center;
+
+                    &:first-child {
+                        border-top: 1px solid $color11;
+                    }
+
+                    @include breakpoint(large) {
+                        height       : 100%;
+                        padding      : 0 0.5rem 0;
+                        border-bottom: none;
+
+                        &:first-child {
+                            border-top: none;
+                        }
+                    }
+
+                    a[href] {
+                        font-size      : 0.875rem;
+                        display        : flex;
+                        height         : 100%;
+                        flex-direction : column;
+                        justify-content: center;
+                        padding        : .75rem 1rem;
+                        color          : $color15;
+
+                        span {
+                            color         : $color1;
+                            text-transform: uppercase;
+                        }
+
+                        @include breakpoint(large) {
+                            padding: 0;
+
+                            span {
+                                color         : $color11;
+                                text-transform: none;
+                            }
+                        }
+                    }
+
+                    h1 {
+                        display: contents;
+                    }
+
+                    a[href] {
+                        white-space   : nowrap;
+                        color         : $color1;
+                        position      : relative;
+                        font-weight: $font-bold;
+
+                        &:after {
+                            content      : "";
+                            width        : 12px;
+                            height       : 12px;
+                            border-top   : 2px solid $color1;
+                            border-right : 2px solid $color1;
+                            border-radius: 1px;
+                            transform    : rotate(45deg);
+                            position     : absolute;
+                            right        : 1rem;
+
+                            @include breakpoint(large) {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    &.current a,
+                    &:only-child a[href] {
+                        color      : $color30;
+                        font-weight: $font-bold;
+                    }
+
+                    &.active {
+                        menu {
+                            left: 0;
+                        }
+                    }
+
+                    &.contact{
+                        margin-left: auto;
+                    }
+                }
+
+                @include breakpoint(large) {
+                    &>li:hover {
+                        &>a[href] {
+                            color        : $color30;
+                            font-weight  : $font-bold;
+                        }
+
+                        &>menu {
+                            position        : absolute;
+                            background-color: $color17;
+                            margin          : 0;
+                            left            : 0;
+                            right           : 0;
+                            z-index         : 1000;
+                            padding         : 2rem 0 4rem;
+                            display         : grid; // inherits grid from the general grid system like sections
+
+                            ul {
+                                display: contents;
+
+                                li {
+                                    grid-column   : span 6;
+                                    padding       : 1em 0;
+                                    border-bottom : solid 1px $color16;
+                                    display       : flex;
+                                    flex-direction: column;
+
+                                    a[href] {
+                                        font-size: .875rem;
+                                        display  : inline-block;
+
+                                        span {
+                                            font-weight  : $font-semibold;
+                                            margin-bottom: .25rem;
+                                            display      : block;
+                                            transition   : all ease .3s;
+                                        }
+                                    }
+
+                                    &:hover {
+
+                                        a[href] {
+                                            color: $color30;
+
+                                            span {
+                                                border-left : solid 4px $color30;
+                                                padding-left: 0.5rem;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.active {
+                .menu-mobile {
+                    &:before {
+                        transform : rotate(45deg);
+                        height    : 4px;
+                        border    : 0;
+                        top       : 50%;
+                        margin-top: -2px;
+                        background: #FFF;
+                    }
+
+                    &:after {
+                        transform: rotate(-45deg);
+                    }
+                }
+
+                ul.menu {
+                    display: block;
+                    left   : 0;
+                }
+            }
+        }
+
+        .toolbar {
+            position         : absolute;
+            display          : flex;
+            align-items      : center;
+            margin-inline-end: 1em;
+            right            : 0;
+            top:50%;
+            margin-top:-15px;
+
+            &>* {
+                margin: 0 0.5em; // Replaces flex gap which does not work in safari
+            }
+
+            &>a.social {
+                color    : $color1;
+                font-size: .5em;
+                border-radius: 100%;
+                width: 1.25rem;
+                height: 1.25rem;
+                border:2px solid $color1;
+                background: $color1 center center;
+                background-size: cover;
+
+                @include breakpoint(medium) {
+                    font-size: 1.5em;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    border-width: 3px;
+                }
+
+                &:hover{
+                    border-color: $color30;
+                }
+
+                &.twitter{
+                    background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOSAwQzQuMDMyIDAgMCA0LjAzMiAwIDlDMCAxMy45NjggNC4wMzIgMTggOSAxOEMxMy45NjggMTggMTggMTMuOTY4IDE4IDlDMTggNC4wMzIgMTMuOTY4IDAgOSAwWk0xMi42IDcuMkMxMi42IDcuMjcyIDEyLjYgNy4zNDQgMTIuNiA3LjQ4OEMxMi42IDkuOTM2IDEwLjcyOCAxMi42NzIgNy40MTYgMTIuNjcyQzYuMzM2IDEyLjY3MiA1LjQgMTIuMzg0IDQuNjA4IDExLjg4QzQuNzUyIDExLjg4IDQuODk2IDExLjg4IDUuMDQgMTEuODhDNS45MDQgMTEuODggNi42MjQgMTEuNTkyIDcuMjcyIDExLjA4OEM2LjQ4IDExLjA4OCA1Ljc2IDEwLjUxMiA1LjU0NCA5Ljc5MkM1LjYxNiA5Ljc5MiA1LjgzMiA5Ljc5MiA1LjkwNCA5Ljc5MkM2LjA0OCA5Ljc5MiA2LjI2NCA5Ljc5MiA2LjMzNiA5LjcyQzUuNTQ0IDkuNTc2IDQuODk2IDguODU2IDQuODk2IDcuOTJDNS4wNCA3Ljk5MiA1LjMyOCA4LjA2NCA1LjYxNiA4LjIwOEM1LjE4NCA3Ljg0OCA0LjgyNCA3LjM0NCA0LjgyNCA2LjY5NkM0LjgyNCA2LjMzNiA0Ljg5NiA2LjA0OCA1LjExMiA1LjgzMkM1Ljk3NiA2LjkxMiA3LjM0NCA3LjcwNCA4Ljg1NiA3LjcwNEM4Ljg1NiA3LjU2IDguNzg0IDcuNDE2IDguNzg0IDcuMjcyQzguNzg0IDYuMjY0IDkuNTc2IDUuNDcyIDEwLjY1NiA1LjQ3MkMxMS4yMzIgNS40NzIgMTEuNjY0IDUuNjE2IDEyLjAyNCA2LjA0OEMxMi40NTYgNS45NzYgMTIuODE2IDUuNzYgMTMuMTc2IDUuNjE2QzEzLjAzMiA2LjA0OCAxMi43NDQgNi40MDggMTIuMzg0IDYuNjI0QzEyLjc0NCA2LjYyNCAxMy4xMDQgNi40OCAxMy40NjQgNi4zMzZDMTMuMjQ4IDYuNTUyIDEyLjk2IDYuOTEyIDEyLjYgNy4yWiIgZmlsbD0iIzNCM0IzQiIvPjwvc3ZnPg==");
+
+                    &:after{
+                        display:none;
+                    }
+                }
+
+                &.facebook{
+                    background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOSAwQzQuMDMyIDAgMCA0LjAzMiAwIDlDMCAxMy45NjggNC4wMzIgMTggOSAxOEMxMy45NjggMTggMTggMTMuOTY4IDE4IDlDMTggNC4wMzIgMTMuOTY4IDAgOSAwWk0xMC44NzIgOUg5LjU3NkM5LjU3NiAxMS4wMTYgOS41NzYgMTMuNDY0IDkuNTc2IDEzLjQ2NEg3Ljc3NkM3Ljc3NiAxMy40NjQgNy43NzYgMTEuMDE2IDcuNzc2IDlINi45MTJWNy40MTZINy43NzZWNi40MDhDNy43NzYgNS42ODggOC4xMzYgNC41MzYgOS42NDggNC41MzZIMTEuMDE2VjYuMDQ4QzExLjAxNiA2LjA0OCAxMC4yMjQgNi4wNDggMTAuMDA4IDYuMDQ4QzkuNzkyIDYuMDQ4IDkuNzIgNi4xMiA5LjcyIDYuNDhWNy4zNDRIMTEuMTZMMTAuODcyIDlaIiBmaWxsPSIjM0IzQjNCIi8+PC9zdmc+");
+
+                    &:after{
+                        display:none;
+                    }
+                }
+
+                &.linkedin{
+                    background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOSAwQzQuMDMyIDAgMCA0LjAzMiAwIDlDMCAxMy45NjggNC4wMzIgMTggOSAxOEMxMy45NjggMTggMTggMTMuOTY4IDE4IDlDMTggNC4wMzIgMTMuOTY4IDAgOSAwWk02LjQwOCAxMy42OEg0LjYwOFY3LjJINi40MDhWMTMuNjhaTTUuNDcyIDYuNDA4QzQuODk2IDYuNDA4IDQuNDY0IDUuOTc2IDQuNDY0IDUuNEM0LjQ2NCA0LjgyNCA0Ljk2OCA0LjMyIDUuNDcyIDQuMzJDNS45NzYgNC4zMiA2LjQ4IDQuNzUyIDYuNDggNS40QzYuNTUyIDUuOTA0IDYuMTIgNi40MDggNS40NzIgNi40MDhaTTEzLjUzNiAxMy42OEgxMS43MzZDMTEuNzM2IDEzLjY4IDExLjczNiAxMS4yMzIgMTEuNzM2IDEwLjM2OEMxMS43MzYgOC4zNTIgOS40MzIgOC41NjggOS40MzIgMTAuMzY4QzkuNDMyIDExLjM3NiA5LjQzMiAxMy42OCA5LjQzMiAxMy42OEg3LjYzMlY3LjJIOS4zNlY4LjI4QzEwLjE1MiA2Ljc2OCAxMy41MzYgNi42OTYgMTMuNTM2IDkuNzJDMTMuNTM2IDExLjM3NiAxMy41MzYgMTMuNjggMTMuNTM2IDEzLjY4WiIgZmlsbD0iIzNCM0IzQiIvPjwvc3ZnPg==");
+
+                    &:after{
+                        display:none;
+                    }
+                }
+            }
+
+            .search {
+                display: flex;
+
+                &>a[href] {
+                    color           : $color12;
+                    background-color: $color17;
+                    padding         : .35em .5em;
+                    white-space     : nowrap;
+                    user-select     : none;
+                    cursor          : text;
+                }
+
+                &::after {
+                    content: "";
+                    @include picto_svg($picto-search);
+                    background-color: $color11;
+                }
+
+                .popsearch {
+                    display: none;
+                }
+            }
+
+            .search:hover {
+                position : relative;
+                font-size: 12px;
+
+                .popsearch {
+                    display   : block;
+                    position  : absolute;
+                    right     : -10px;
+                    top       : -10px;
+                    width     : 420px;
+                    min-height: 10em;
+                    background: $color17;
+                    padding   : 8px;
+                    border    : solid 1px $color13;
+                    z-index   : 1000;
+                    filter    : drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.3));
+
+                    .searchinput {
+                        display   : flex;
+                        background: $color1;
+                        border    : solid 1px $color30;
+
+                        input {
+                            flex   : 1;
+                            height : auto;
+                            margin : 0;
+                            padding: 0 1em;
+                            color  : $color11;
+                            border : none;
+                            outline: none;
+                            order  : 0;
+
+                            &+a[href] {
+                                display: none;
+                            }
+
+                            &:valid+a[href] {
+                                display        : flex;
+                                width          : 2em;
+                                font-size      : 1.5em;
+                                justify-content: center;
+                                align-self     : center;
+                                font-weight    : $font-bold;
+                                user-select    : none;
+                            }
+                        }
+
+                        &::after {
+                            content: "";
+                            @include picto_svg($picto-search);
+                            background-color: $color30;
+                            order           : 2;
+                        }
+                    }
+
+                    .tabresult {
+                        display: flex;
+                        padding: 0 1em;
+
+                        &>a[href] {
+                            color  : $color11;
+                            padding: 1em 0.5em 0.5em;
+
+                            &:before {
+                                text-transform: uppercase;
+                            }
+                        }
+                    }
+
+                    .result {
+                        columns: 2;
+                        padding: 1em;
+
+                        h4 {
+                            color         : $color30;
+                            font-size     : 12px;
+                            text-transform: uppercase;
+                            margin        : 0;
+                        }
+
+                        ul {
+                            orphans: 3;
+
+                            li {
+                                padding     : 0.5em;
+                                line-height : 1em;
+                                break-inside: avoid-column;
+
+                                &:before {
+                                    content       : "· ";
+                                    font-size     : 35px;
+                                    vertical-align: middle;
+                                }
+
+                                a[href] {
+                                    font-size: 12px;
+                                }
+                            }
+
+                            li:not(:last-of-type) {
+                                border-bottom: solid 1px $color16;
+                            }
+                        }
+
+                        h4.res-blog+ul li:before {
+                            content          : "";
+                            display          : inline-block;
+                            width            : 40px;
+                            height           : 40px;
+                            margin-inline-end: 6px;
+                            background       : var(--image-blog, $color16);
+                        }
+                    }
+
+                    &[type='page'] .result h4:not(.res-page),
+                        &[type='blog'] .result h4:not(.res-blog),
+                        &[type='faq'] .result h4:not(.res-faq) {
+                        display: none;
+
+                        &+ul {
+                            display: none;
+                        }
+                    }
+
+                    &:not([type]) h4:first-of-type,
+                        &[type=''] h4:first-of-type,
+                        &[type='page'] h4.res-page,
+                        &[type='blog'] h4.res-blog,
+                        &[type='faq'] h4.res-faq {
+                        column-span: all;
+                    }
+
+                    &:not([type]) a[type=''],
+                        &[type=''] a[type=''],
+                        &[type='page'] a[type='page'],
+                        &[type='blog'] a[type='blog'],
+                        &[type='faq'] a[type='faq'] {
+                        color         : $color30;
+                        font-weight   : $font-bold;
+                        border-bottom : solid 3px $color30;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
+
+    main section:first-of-type {
+        margin-top: 0;
+    }
+
+    footer {
+        display              : grid;
+        grid-template-columns: 1fr;
+        grid-gap             : 1rem;
+        background-color     : $color17;
+        padding              : 2rem 0 4rem;
+        margin-top           : auto;
+
+        @include breakpoint(large) {
+            padding: 3rem 0 5rem;
+        }
+
+        &>section {
+            &>* {
+                grid-column: span 6;
+
+                @include breakpoint(medium) {
+                    grid-column: span 4;
+                }
+
+                @include breakpoint(large) {
+                    grid-column: span 3;
+                }
+            }
+
+            .logo {
+                @include picto_svg('../image/logo.png', 52px, 52px);
+                background-size: 100% auto;
+                margin-top     : .75rem;
+            }
+
+            .links {
+                color: $color10;
+
+                h6 {
+                    font-size     : 1rem;
+                    font-weight   : $font-bold;
+                    margin        : 0;
+                    padding       : .25rem 0;
+                    color         : $color30;
+                    border-bottom : solid 1px $color31;
+                    text-transform: uppercase;
+                }
+
+                ul li {
+                    margin: .5rem 0;
+                }
+
+                a[href] {
+                    color: $color12;
+                }
+
+                b {
+                    color: $color32;
+                }
+
+                div.social {
+                    padding-top: .75rem;
+
+                    a[href] {
+                        display      : block;
+                        margin-bottom: 1rem;
+
+                        &::before {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+
+                .sitemap {
+                    font-size: .75rem;
+                }
+            }
+        }
+    }
+
+    .sticky-btn{
+        position: fixed;
+        left:0;
+        bottom:-100px;
+        width:100%;
+        border-top:1px solid $color40;
+        padding-top:.25rem;
+        z-index: 1000;
+        transition: bottom .5s;
+
+        &.show{
+            bottom:0;
+        }
+
+        a{
+            display:block;
+            width:100%;
+            padding:1.125rem 0;
+            font-size: 1.25rem;
+            color:$color1;
+            font-weight: $font-bold;
+            background:$color40;
+            text-align: center;
+            transition: all .3s;
+
+            &:hover{
+                color:$color1;
+                background:$color30;
+            }
+        }
+
+        &.yellow{
+            border-color:$color30;
+
+            a{
+                background:$color30;
+
+                &:hover{
+                    background:$color40;
+                }
+            }
+        }
+    }
+}

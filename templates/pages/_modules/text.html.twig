@@ -1,0 +1,12 @@
+{% set id = 'text-toggle' ~ random() %}
+{% set class = (type is defined) ? type : ((data is defined) ? data.type : '')  %}
+<section class="text {{class}}">
+    <h4 class="yellow caps">{{ block('title') ?? ((data is defined) ? data.titre|raw) }}</h4>
+    <div>{{ block('accroche') ?? ((data is defined) ? data.accroche|raw) }}</div>
+    {% set more = block('more') ?? ((data is defined) ? data.texte|raw) %}
+    {% if more is not empty %}
+        <input type="checkbox" id="{{id}}" style="display:none;">
+        <div>{{ more|raw }}</div>
+        <label for="{{id}}"><a class="yellow show-more">&nbsp;</a></label>
+    {% endif %}
+</section>

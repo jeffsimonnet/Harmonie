@@ -1,0 +1,39 @@
+{% block empty %}{% endblock %}
+
+{% block small %}
+    <section class="hero bando-small" style="--bg-image:url('{{ asset(hero.image|default('build/images/illus-blog.jpg')) }}');"></section>
+    {% endblock %}
+
+{% block wide %}
+    <section class="hero bando-wide" style="--bg-image:url('{{ asset(hero.image|default('build/images/illus-blog.jpg')) }}');">
+        {{ block('_hero_content') }}
+    </section>
+{% endblock %}
+
+{% block split %}
+    <section class="hero bando-split">
+        <div class="text">
+            {{ block('_hero_content') }}
+        </div>
+        {% if hero.video is defined %}
+            <div class="video">{{ hero.video|raw }}</div>
+        {% elseif hero.map is defined %}
+            <div class="map">{{ hero.map|raw }}</div>
+        {% else %}
+            <div class="image" style="--bg-image:url('{{ asset(hero.image|default('build/images/illus-blog.jpg')) }}')"></div>
+        {% endif %}
+        {% if hero.icons is defined %}<div class="icons">{{ hero.icons|raw }}</div>{% endif %}
+    </section>
+{% endblock %}
+
+{% block _hero_content %}
+    <div>
+        {{ hero.contenu|raw }}
+
+        {% if hero.cta_link is not empty %}
+            <div class="center">
+                <a href="{{ hero.cta_link }}" class="btn primary large grow pulsar"><span>{{ hero.cta_label }}</span></a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

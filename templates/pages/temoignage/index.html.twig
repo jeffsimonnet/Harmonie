@@ -1,0 +1,27 @@
+{% extends 'base_page.html.twig' %}
+
+{% block body %}
+    <main class="temoignage">
+        <section class="hero bando-small" style="--bg-image:url('{{ asset('build/images/bando-temoignage.jpg') }}');">
+            <h2>{{ page.title }}</h2>
+        </section>
+        <section class="temoignage_timeline">
+            <div class="data">
+            {% for temoignage in temoignages %}
+                <div class="temoignage-card">
+                    <div class="spot">{{ temoignage.content.date|date_locale('month') }} <b>{{ temoignage.content.date|date('Y') }}</b></div>
+                    <div class="content">
+                        <img src="{{asset(temoignage.content.image|default('build/images/bando-videos.jpg'))}}">
+                        <p>{{ temoignage.content.temoignage|raw }}</p>
+                        <p>
+                            {% set parts = temoignage.title|split('/') %}
+                            <span>{{ parts[0] }}</span><br/>
+                            {% if parts[1] is defined %}<span>{{ parts[1] }}</span>{% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

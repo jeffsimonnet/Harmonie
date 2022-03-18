@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    <div class="errors | full">{{ form_errors(form) }}</div>
+    {{ form_row(form.parent) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.code) }}
+    <div class="full">
+        {{ form_widget(form.save) }}
+        {% if form.delete_button is defined %} | {{ form_widget(form.delete_button) }}{% endif %}
+    </div>
+{{ form_end(form) }}

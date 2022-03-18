@@ -1,0 +1,9 @@
+{% extends 'base_page.html.twig' %}
+
+{% block body %}
+    <main class="tete-silo">
+        {% with {hero: portlets.hero_split_image} %}{{ block('split', 'pages/_modules/hero.html.twig') }}{% endwith %}
+        {% embed 'pages/_modules/text.html.twig' with {data : portlets.texte}%}{% endembed %}
+        {% embed 'pages/_modules/produits.html.twig' with {id: "p1", data: portlets.produits} %}{% endembed %}
+    </main>
+{% endblock %}

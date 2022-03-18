@@ -1,0 +1,33 @@
+{% extends 'base_page.html.twig' %}
+
+{% block body %}
+    <main class="tete-silo">
+        {% with {hero: portlets.hero_split_image} %}{{ block('split', 'pages/_modules/hero.html.twig') }}{% endwith %}
+        {{ render(path('_module_map', { page : 'isolation'})) }}</td>
+        {% embed 'pages/_modules/produits.html.twig' with {id: "p1", data: portlets.produits_1} %}{% endembed %}
+        {% embed 'pages/_modules/paves.html.twig' with {data: portlets.paves} %}{% endembed %}
+        {% embed 'pages/_modules/produits.html.twig' with {id:"p2", data : portlets.produits_2} %}{% endembed %}
+        {{ block('hooks') }}
+        {{ render(path('_module_articles', {title:"L'actualité de l'isolation", category:'isolation'})) }}
+        {% with {title:"Vous avez des questions ?", lien:'/faq/'} %}{% include 'pages/_modules/faq.html.twig' %}{% endwith %}
+    </main>
+{% endblock %}
+
+{% block hooks %}
+<section class="hooks">
+    <h4 class="green caps">Aides & subventions isolation extérieure : un service Harmonie</h4>
+    <p><i>Nous apportons un service gratuit concernant les subventions travaux, les avantages fiscaux, et les solutions de financement. Nos chargés d’affaires sauront vous orienter vers les aides adaptées à votre copropriété. Elles sont nombreuses et parfois cumulables.</i></p>
+    <div class="hook">
+        <h5>Eco-prêt à taux zéro</h5>
+        <p><a href="http://www.developpement-durable.gouv.fr/L-eco-pret-a-taux-zero-en-13,28949.html" target="_blank">L’éco-prêt à taux zéro</a> concerne les travaux de rénovation thermique. Il peut être collectif ou individuel. Il rentre dans la catégorie des aides au financement au même type que le dispositif Copro 100. Il existe également des prêts verts que votre banque à l'obligation de vous offir mais les taux sont moins atrractifs que ceux de l'ECO PTZ ou de Copro 100.</p>
+    </div>
+    <div class="hook">
+        <h5>MaPrimeRénov’Copro</h5>
+        <p>MaPrimeRénov’Copropriétés mise en vigueur depuis le 1er janvier 2020 est un financement public, pour tous les niveaux de revenus, immédiatement versé dès la fin des travaux. Il s’agit d’une aide collective car elle concerne la rénovation globale du bâti. Le gain énergétique final doit être d’au moins 35%. Des bonus peuvent être accordés pour les « sorties de passoires », logements étiquetés F ou G atteignant les performances énergétiques d’un logement BBC.</p>
+    </div>
+    <div class="hook">
+        <h5>Aide ANAH</h5>
+        <p><a href="http://www.anah.fr/" target="_blank" rel="nofollow" class="seoquake-nofollow">L’ANAH</a> (Agence Nationale de l’Habitat) est un acteur majeur avec des aides soumises à des conditions de ressources et à des niveaux précis d'augmentation des performances énergétiques.</p>
+    </div>
+</section>
+{% endblock %}

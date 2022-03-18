@@ -1,0 +1,16 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Edition Realisation{% endblock %}
+
+{% block content %}
+    <div class="bloc | grid-span-12-col">
+        <div class="heading">
+            <h3>Edition Realisation</h3>
+            {% if page.id %}<a href="{{ path("admin_page_preview", {page : page.id}) }}" class="btn_admin icon add" target="_blank">Prévisualiser <span>la réalisation</span></a>{% endif %}
+            <a href="{{ path('admin_realisation_index') }}">Retour <span>à la liste</span> &#8634;</a>
+        </div>
+        <div class="content">
+            {{ include('_document/page/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
