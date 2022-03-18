@@ -1,0 +1,14 @@
+.elfinder-field {
+    img {
+        max-height: 8em;
+    }
+}
+
+.elfinder-slideshow-field {
+    [action=preview] {
+        img {
+            max-height: 8em;
+            cursor    : pointer;
+        }
+    }
+}

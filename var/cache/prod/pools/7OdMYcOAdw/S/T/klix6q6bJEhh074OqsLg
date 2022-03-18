@@ -1,0 +1,16 @@
+<?php //%255BApp%255CDocument%255CPage%255C%2524GEDMO_TREE_CLASSMETADATA%255D%255B1%255D
+
+return [PHP_INT_MAX, [
+    'strategy' => 'materializedPath',
+    'activate_locking' => false,
+    'locking_timeout' => 3,
+    'path_source' => 'id',
+    'path' => 'path',
+    'path_separator' => ',',
+    'path_append_id' => false,
+    'path_starts_with_separator' => false,
+    'path_ends_with_separator' => true,
+    'parent' => 'parent',
+    'level' => 'level',
+    'useObjectClass' => 'App\\Document\\Page',
+]];

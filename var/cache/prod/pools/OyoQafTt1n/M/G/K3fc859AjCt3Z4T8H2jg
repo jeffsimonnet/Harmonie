@@ -1,0 +1,45 @@
+<?php //App.Document.Page
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        (\Symfony\Component\VarExporter\Internal\Registry::$factories['Symfony\\Component\\Validator\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::f('Symfony\\Component\\Validator\\Mapping\\ClassMetadata'))(),
+        clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Doctrine\\Bundle\\MongoDBBundle\\Validator\\Constraints\\Unique'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\Bundle\\MongoDBBundle\\Validator\\Constraints\\Unique')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Document\\Page',
+            ],
+            'defaultGroup' => [
+                'Page',
+            ],
+            'constraints' => [
+                [
+                    $o[1],
+                ],
+            ],
+            'constraintsByGroup' => [
+                [
+                    'Default' => [
+                        $o[1],
+                    ],
+                    'Page' => [
+                        $o[1],
+                    ],
+                ],
+            ],
+            'fields' => [
+                1 => 'slug',
+            ],
+            'groups' => [
+                1 => [
+                    'Default',
+                    'Page',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];

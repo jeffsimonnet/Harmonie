@@ -1,0 +1,985 @@
+// #region base
+body {
+    margin     : 0;
+    padding    : 0;
+    color      : $color11;
+    font-family: $font-first;
+    font-weight: $font-regular;
+    font-size  : .875rem;
+    min-height : 100vh;
+    max-width  : 100vw;
+    overflow-x : hidden;
+
+    .sf-toolbar {
+        position: absolute;
+    }
+
+    @for $i from 2 through 12 {
+        .grid-span-#{$i}-col {
+            grid-column: span $i;
+        }
+    }
+}
+
+p,
+ul,
+button,
+ol {
+    font-size: 14px;
+
+    &.small {
+        font-size: 80%;
+    }
+
+    &.big {
+        font-size: 120%;
+    }
+}
+
+p {
+    line-height: 1.4;
+}
+
+ul {
+    list-style: disc inside;
+
+    li {
+        margin: 1em 0;
+    }
+}
+
+ul.reset {
+    display        : flex;
+    list-style-type: none;
+    padding        : 0;
+    margin         : 0;
+
+    li {
+        margin: 0;
+    }
+}
+
+ul.nostyle {
+    list-style-type: none;
+    padding        : 0;
+    margin         : 0;
+
+    li {
+        margin: 0;
+    }
+}
+
+a[href] {
+    text-decoration: none;
+    color          : $color11;
+}
+
+a[href]:not(.block-link) {
+    color: $color30;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $color20;
+    }
+}
+
+em {
+    color     : $color30;
+    font-style: normal;
+}
+
+b {
+    font-weight: $font-bold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: $color10;
+}
+
+h1.max {
+    font-weight: $font-bold;
+    font-size  : 30px;
+    margin-top : 32px;
+}
+
+h1,
+h2.max {
+    font-weight: $font-bold;
+    font-size  : 26px;
+}
+
+h2 {
+    font-size  : 20px;
+    font-weight: $font-semibold;
+}
+
+h3 {
+    font-size  : 16px;
+    font-weight: $font-bold;
+}
+
+h4 {
+    font-size  : 16px;
+    font-weight: $font-semibold;
+}
+
+h5 {
+    font-size  : 12px;
+    line-height: 16px;
+    font-weight: $font-regular;
+}
+
+section>h3 {
+    grid-column   : 1/-1;
+    text-align    : center;
+    text-transform: uppercase;
+}
+
+.text-16 {
+    font-size: 16px;
+}
+
+.regular {
+    font-weight: $font-regular;
+}
+
+.semibold {
+    font-weight: $font-semibold;
+}
+
+.bold {
+    font-weight: $font-bold;
+}
+
+.clear {
+    clear: both;
+}
+
+.uppercase,
+.caps {
+    text-transform: uppercase;
+}
+
+.center {
+    text-align: center;
+}
+
+.yellow,
+.yellow[href] {
+    color: $color30;
+}
+
+.green,
+.green[href] {
+    color: $color20;
+}
+
+.orange,
+.orange[href] {
+    color: $color40;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.nomargin {
+    margin: 0;
+}
+
+.nomargin-top {
+    margin-top: 0;
+}
+
+.nomargin-bottom {
+    margin-bottom: 0;
+}
+
+.flex-1 {
+    display: flex;
+
+    &>* {
+        flex: 1;
+    }
+}
+
+.flex-auto {
+    display: flex;
+
+    &>* {
+        flex: auto;
+    }
+}
+
+.flex-col-between {
+    display        : flex;
+    flex-direction : column;
+    justify-content: space-between;
+}
+
+// NOTE 'gap' is not supported by safari
+.flex-gap {
+    display              : grid;
+    grid-template-columns: repeat(auto-fit, minmax(1px, 1fr));
+    column-gap           : 1em;
+
+    &>* {
+        width: 100%;
+    }
+}
+
+.flex-column {
+    display       : flex !important;
+    flex-direction: column;
+}
+
+.flex-justify {
+    justify-content: space-between;
+}
+
+// #endregion
+
+// #region form
+[type=color],
+[type=date],
+[type=datetime-local],
+[type=datetime],
+[type=email],
+[type=month],
+[type=number],
+[type=password],
+[type=search],
+[type=tel],
+[type=text],
+[type=time],
+[type=url],
+[type=week],
+select {
+    display         : block;
+    box-sizing      : border-box;
+    width           : 100%;
+    height          : 2.4375rem;
+    margin          : 0 0 1rem;
+    padding         : .5rem;
+    border          : 1px solid $color10;
+    border-radius   : 0;
+    background-color: $color1;
+    box-shadow      : inset 0 1px 2px rgba(10, 10, 10, .1);
+    font-family     : inherit;
+    font-size       : 1rem;
+    font-weight     : 400;
+    line-height     : 1.5;
+    color           : $color10;
+    transition      : box-shadow .5s, border-color .25s ease-in-out;
+}
+
+textarea {
+    display         : block;
+    box-sizing      : border-box;
+    width           : 100%;
+    margin          : 0 0 1rem;
+    padding         : .5rem;
+    border          : 1px solid $color10;
+    border-radius   : 0;
+    background-color: $color1;
+    box-shadow      : inset 0 1px 2px rgba(10, 10, 10, .1);
+    font-family     : inherit;
+    font-size       : 1rem;
+    font-weight     : 400;
+    line-height     : 1.5;
+    color           : $color10;
+    transition      : box-shadow .5s, border-color .25s ease-in-out;
+}
+
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+    padding         : .375rem .5rem;
+    background-color: $color17;
+    color           : $color10;
+    border          : solid 1px $color10;
+    border-radius   : 4px;
+    user-select     : none;
+    cursor          : pointer;
+}
+
+.input {
+    background: $color1;
+    display   : flex;
+
+    &>* {
+        flex: 1;
+    }
+
+    input {
+        border : none !important;
+        outline: none;
+        padding: 0.2em 1em;
+        margin : 0;
+    }
+
+    select {
+        border    : none !important;
+        outline   : none;
+        margin    : 0.2em 1em;
+        width     : auto;
+        box-shadow: none;
+    }
+
+    &.euro {
+        &::after {
+            content        : "€";
+            font-size      : 1.5em;
+            color          : $color10;
+            padding        : 0.2em 0.5em;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+        }
+    }
+}
+
+.btn,
+a[href].btn {
+    display         : inline-block;
+    color           : $color1;
+    background-color: $color30;
+    white-space     : nowrap;
+    box-sizing      : border-box;
+    text-align      : center;
+    max-width       : 100%;
+    user-select     : none;
+    cursor          : pointer;
+
+    &.primary {
+        padding      : 14px 16px;
+        border-radius: 5px;
+    }
+
+    &.secondary {
+        padding: 10px 16px;
+    }
+
+    &.large {
+        padding       : 0.8em 1.9em;
+        font-size     : 1.2em;
+        text-transform: uppercase;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $color1;
+    }
+
+    &.green {
+        color     : $color1;
+        background: $color21;
+    }
+
+    &.grey {
+        color         : $color1;
+        background    : $color16;
+        pointer-events: none; // NOTE makes them disabled !
+    }
+
+    &.white {
+        background: $color17;
+        border    : 1px solid $color10;
+    }
+
+    &.clear {
+        background: none;
+        border    : 1px solid $color1;
+    }
+
+    &.shadow {
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    &.delete {
+        background-color: lightcoral;
+        color           : red;
+
+        &[disabled] {
+            background-color: grey;
+            color           : darkgrey;
+
+        }
+    }
+
+    &.center {
+        display     : block;
+        width       : min-content;
+        margin-left : auto;
+        margin-right: auto;
+    }
+
+    &.grow {
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+button.btn {
+    appearance: none;
+    border    : none;
+}
+
+// #endregion
+
+// #region widgets
+a.social {
+    display: inline-block;
+
+    &[href^="https://www.twitter"]::before,
+    &[href^="https://www.twitter"]::after,
+    &.twitter::before,
+    &.twitter::after {
+        @include icomoon(twitter);
+    }
+
+    &[href^="https://www.facebook"]::before,
+    &[href^="https://www.facebook"]::after,
+    &.facebook::before,
+    &.facebook::after {
+        @include icomoon(facebook);
+    }
+
+    &[href^="https://www.linkedin"]::before,
+    &[href^="https://www.linkedin"]::after,
+    &.linkedin::before,
+    &.linkedin::after {
+        @include icomoon(linkedin);
+    }
+
+    &[href^="mailto:"]::before,
+    &[href^="mailto:"]::after,
+    &.mail::before,
+    &.mail::after {
+        @include icomoon(mail);
+    }
+
+    &[href^="tel:"]::before,
+    &[href^="tel:"]::after,
+    &.tel::before,
+    &.tel::after {
+        @include icomoon(tel);
+    }
+
+    &.message::before,
+    &.message::after {
+        @include icomoon(message);
+    }
+
+    &.visio::before,
+    &.visio::after {
+        @include icomoon(visio);
+    }
+
+    &.hide-text {
+        text-indent: -9999px;
+        line-height: 0;
+
+        &:before {
+            content: none;
+        }
+
+        &:after {
+            display    : block;
+            text-indent: 0;
+        }
+    }
+
+    &::before {
+        margin-inline-end: 5px;
+        vertical-align   : middle;
+    }
+
+    &:not(.hide-text):after {
+        content       : none;
+        vertical-align: middle;
+    }
+}
+
+a.contact::before {
+    content          : "";
+    background-color : $color11;
+    display          : inline-block;
+    vertical-align   : middle;
+    width            : 20px;
+    height           : 20px;
+    border-radius    : 4px;
+    margin-inline-end: 0.5em;
+}
+
+// This makes the menu size to be calculated with the bold font. Otherwise, we get a layout shift when we hover
+a[style-hover] {
+    &::before {
+        content    : attr(style-hover);
+        display    : block;
+        height     : 0;
+        overflow   : hidden;
+        visibility : hidden;
+        font-weight: $font-bold;
+    }
+}
+
+#flash-messages {
+    position: absolute;
+    width   : 100%;
+    z-index : 9999;
+
+    .alert {
+        padding      : 20px;
+        color        : white;
+        margin-bottom: 15px;
+        animation    : 0.5s ease-in 2s forwards;
+
+        @include animation-keyframes {
+            100% {
+                opacity       : 0;
+                display       : none;
+                pointer-events: none;
+                height        : 0;
+                overflow      : hidden;
+                padding       : 0;
+                margin        : 0;
+            }
+        }
+
+        &.alert-success {
+            background-color: #43AC6A;
+        }
+
+        &.alert-notice {
+            background-color: #a0d3e8;
+        }
+
+        &.alert-warning {
+            background-color: #f08a24;
+        }
+
+        &.alert-error {
+            background-color: #f44336;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color      : white;
+            font-weight: bold;
+            float      : right;
+            font-size  : 22px;
+            line-height: 20px;
+            cursor     : pointer;
+            transition : 0.3s;
+
+            &:hover {
+                color: #CCC;
+            }
+        }
+    }
+}
+
+img,
+iframe {
+    max-width: 100%;
+}
+
+/******************/
+/*** responsive ***/
+/******************/
+.hide-for-large,
+.hide-for-medium,
+.hide-for-small {
+    display: none !important;
+}
+
+@include breakpoint(medium) {
+    .hide-for-small {
+        display: inherit !important;
+    }
+
+    div.hide-for-small {
+        display: block !important;
+    }
+
+    table.hide-for-small {
+        display: table !important;
+    }
+
+    tr.hide-for-small {
+        display: table-row !important;
+    }
+
+    td.hide-for-small {
+        display: table-cell !important;
+    }
+}
+
+@include breakpoint(large) {
+    .hide-for-medium {
+        display: inherit !important;
+    }
+
+    div.hide-for-medium {
+        display: block !important;
+    }
+
+    table.hide-for-medium {
+        display: table !important;
+    }
+
+    tr.hide-for-medium {
+        display: table-row !important;
+    }
+
+    td.hide-for-medium {
+        display: table-cell !important;
+    }
+}
+
+@include breakpoint(xlarge) {
+    .hide-for-large {
+        display: inherit !important;
+    }
+
+    div.hide-for-large {
+        display: block !important;
+    }
+
+    table.hide-for-large {
+        display: table !important;
+    }
+
+    tr.hide-for-large {
+        display: table-row !important;
+    }
+
+    td.hide-for-large {
+        display: table-cell !important;
+    }
+}
+
+.select_multiple {
+    background: $color17 no-repeat 96% url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDE0IDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTcuMDAwMDQgOEwxMy42NjY3IDEuMzMzMzNMMTIuMzMzNCA0LjY2MjU1ZS0wN0w3LjAwMDA0IDUuMzMzMzNMMS42NjY3MSAwTDAuMzMzMzc0IDEuMzMzMzNMNy4wMDAwNCA4WiIgZmlsbD0iIzNCM0IzQiIvPjwvc3ZnPgo=);
+    border    : none;
+    padding   : 0 1rem;
+    font-size : .875rem;
+    height    : 2.5rem;
+    position  : relative;
+
+    @media only screen and (min-width: 40.0625em) {
+        font-size: 1rem;
+        height   : 3rem;
+    }
+
+    p {
+        margin     : 0;
+        cursor     : default;
+        font-size  : .75rem;
+        line-height: 2.5rem;
+        color      : $color14;
+
+        @media only screen and (min-width: 40.0625em) {
+            font-size  : .875rem;
+            line-height: 3rem;
+        }
+
+        &[data-nb]:not([data-nb=''])::after {
+            content: " ("attr(data-nb) ")";
+        }
+    }
+
+    ul {
+        position  : absolute;
+        left      : 0;
+        width     : 100%;
+        z-index   : 3;
+        display   : none;
+        list-style: none;
+        margin    : 0;
+        padding   : 0;
+        background: $color17;
+        border    : 1px solid $color16;
+        overflow  : auto;
+        max-height: 250px;
+        box-sizing: border-box;
+
+        >li {
+            line-height: 1.2;
+            font-size  : .75rem;
+            box-sizing : border-box;
+            margin     : .5rem 0;
+
+            &:hover {
+                background: #dadada;
+            }
+
+            input {
+                margin: 4px 5px;
+                width : 12px;
+            }
+
+            label {
+                font-size : .75rem;
+                box-sizing: border-box;
+                padding   : .375rem .5rem;
+                margin    : 0;
+                display   : block;
+
+                @media only screen and (min-width: 40.0625em) {
+                    font-size: .875rem;
+                }
+
+            }
+        }
+    }
+}
+
+.pulsar {
+    animation-name           : pulsar;
+    animation-duration       : 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+    &:hover {
+        animation-play-state: paused;
+    }
+}
+
+@keyframes pulsar {
+
+    0%,
+    100% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.03)
+    }
+}
+
+.click-me {
+    display       : inline-block;
+    position      : relative;
+    vertical-align: middle;
+    width         : 1em;
+    height        : 1em;
+    margin-left   : -.8em;
+    margin-top    : .1em;
+
+    &::before {
+        content         : "";
+        background-color: $color37;
+        display         : block;
+        position        : absolute;
+        width           : 3em;
+        height          : 3em;
+        left            : -100%;
+        top             : -125%;
+        border-radius   : 50%;
+        border          : solid 1px #000;
+        animation       : effect_dylan 2s ease-out infinite;
+    }
+
+    &::after {
+        content   : "";
+        display   : inline-block;
+        position  : absolute;
+        background: url($svg-cross2) no-repeat;
+        height    : 20px;
+        width     : 20px;
+        top       : .25em;
+        left      : .5em;
+        animation : mouse-move 2s ease-in infinite;
+    }
+}
+
+@keyframes mouse-move {
+
+    0%,
+    100% {
+        transform: translate(1em, .5em);
+    }
+
+    30%,
+    99% {
+        transform: translate(0, 0);
+    }
+
+    45%,
+    55% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.8);
+    }
+}
+
+@keyframes effect_dylan {
+
+    0%,
+    52%,
+    100% {
+        transform: scale(0.001, 0.001);
+        opacity  : 0.4;
+    }
+
+    80% {
+        transform: scale(2, 2);
+        opacity  : 0;
+    }
+
+    99% {
+        transform: scale(0.001, 0.001);
+        opacity  : 0;
+    }
+}
+
+/*!
+ * "Fork me on GitHub" CSS ribbon v0.2.3 | MIT License
+ * https://github.com/simonwhitaker/github-fork-ribbon-css
+*/
+
+.dev-ribbon {
+    width          : 12.1em;
+    height         : 12.1em;
+    position       : fixed;
+    overflow       : hidden;
+    top            : 0;
+    right          : 0;
+    z-index        : 9999;
+    pointer-events : none;
+    font-size      : 13px;
+    text-decoration: none;
+    text-indent    : -999999px;
+
+    &.fixed {
+        position: fixed;
+    }
+
+    &:hover,
+    &:active {
+        background-color: rgba(0, 0, 0, 0.0);
+    }
+
+    &:before,
+    &:after {
+        /* The right and left classes determine the side we attach our banner to */
+        position: absolute;
+        display : block;
+        width   : 15.38em;
+        height  : 1.54em;
+
+        top  : 3.23em;
+        right: -3.23em;
+
+        box-sizing: content-box;
+
+        transform: rotate(45deg);
+    }
+
+    &::before {
+        content: "";
+
+        /* Add a bit of padding to give some substance outside the "stitching" */
+        padding: .38em 0;
+
+        /* Set the base colour */
+        background-color: red;
+
+        /* Set a gradient: transparent black at the top to almost-transparent black at the bottom */
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+
+        /* Add a drop shadow */
+        box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+
+        pointer-events: auto;
+    }
+
+    &.mode-dev::before {
+        background-color: orange;
+    }
+
+    &.server-local::before,
+    &.server-kiwi::before {
+        background-color: green;
+    }
+
+    &.server-integ::before {
+        background-color: red;
+    }
+
+    &::after {
+        /* Set the text from the data-ribbon attribute */
+        content: attr(title);
+
+        /* Set the text properties */
+        color          : #fff;
+        font-weight    : 700;
+        line-height    : 1.54em;
+        text-decoration: none;
+        text-shadow    : 0 -.08em rgba(0, 0, 0, 0.5);
+        text-align     : center;
+        text-indent    : 0;
+
+        /* Set the layout properties */
+        padding: .15em 0;
+        margin : .15em 0;
+
+        /* Add "stitching" effect */
+        border-width: .08em 0;
+        border-style: dotted;
+        border-color: #fff;
+        border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    &.left-top,
+    &.left-bottom {
+        right: auto;
+        left : 0;
+    }
+
+    &.left-bottom,
+    &.right-bottom {
+        top   : auto;
+        bottom: 0;
+    }
+
+    &.left-top:before,
+    &.left-top:after,
+    &.left-bottom:before,
+    &.left-bottom:after {
+        right: auto;
+        left : -3.23em;
+    }
+
+    &.left-bottom:before,
+    &.left-bottom:after,
+    &.right-bottom:before,
+    &.right-bottom:after {
+        top   : auto;
+        bottom: 3.23em;
+    }
+
+    &.left-top:before,
+    &.left-top:after,
+    &.right-bottom:before,
+    &.right-bottom:after {
+        transform: rotate(-45deg);
+    }
+}
+
+// #endregion

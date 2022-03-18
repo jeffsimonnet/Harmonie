@@ -1,0 +1,123 @@
+{{ form_start(form) }}
+    <div class="errors | full">{{ form_errors(form) }}</div>
+
+    <div class="status-bloc">
+        {{ form_row(form.status) }}
+        {% if form.categorie is defined %}{{ form_row(form.categorie) }}{% endif %}
+        {% if form.date is defined %}{{ form_row(form.date) }}{% endif %}
+
+        {% if form.zone is defined %}{{ form_row(form.zone) }}{% endif %}
+        {% if form.featured is defined %}{{ form_row(form.featured) }}{% endif %}
+        {% if form.featured_home is defined %}{{ form_row(form.featured_home) }}{% endif %}
+    </div>
+
+    <div class="double">
+        {% if form.title is defined %}{{ form_row(form.title) }}{% endif %}
+        {% if form.slug is defined %}{{ form_row(form.slug) }}{% endif %}
+    </div>
+
+    {% if form.target is defined %}
+        <div class="double">{{ form_row(form.target) }}</div>
+        <div class="full">
+            <ul>
+                <li>La cible de redirection doit commencer par '/' et finir par '/' et ne doit pas contenir d'espace
+                <li>Ne pas utiliser de nom de domaine !
+                <li>Pour rediriger vers la home, simplement inscrire '/'
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if form.methode is defined %}
+        <div class="full">{{ form_row(form.methode) }}</div>
+    {% endif %}
+
+    {% if form.portlets is defined %}
+        {% for p in form.portlets %}
+        <div class="full">
+            {{ _self.checktitle(p.vars.id, "<H5>" ~ p.vars.name|capitalize ~ "</H5>") }}
+            <fieldset>
+                {{ form_row(p, {label:false}) }}
+            </fieldset>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if form.template is defined %}
+        <div class="full">
+            {{ _self.checktitle('template', "<H5>Configuration (ne pas modifier)</H5>") }}
+            <fieldset>
+                {{ form_row(form.template) }}
+                {{ form_row(form.configuration) }}
+            </fieldset>
+        </div>
+    {% endif %}
+
+    {% if form.image is defined %}
+        {{ form_row(form.image) }}
+    {% endif %}
+
+    {% if form.slideshow is defined %}
+        <div class="double">{{ form_row(form.slideshow) }}</div>
+    {% endif %}
+
+    {% if form.accroche is defined %}{{ form_row(form.accroche) }}{% endif %}
+
+    {% if form.contenu is defined %}
+        <div class="full">{{ form_row(form.contenu) }}</div>
+    {% endif %}
+
+    {% if form.hero is defined %}
+    <div class="full" id="hero_edit" data-type="{{form.hero.type.vars.data}}">
+        {{ _self.checktitle('hero', "<H5>Hero</H5>", form.hero.type.vars.data is not empty) }}
+        <fieldset>
+            <div style="display:flex; justify-content:space-evenly; padding:1em">
+                {% for type in form.hero.type %}
+                    <div>{{ form_widget(type) }}{{ form_label(type) }}</div>
+                {% endfor %}
+            </div>
+            <div style="display:flex; justify-content:space-evenly; padding:1em" id="hero_edit_image">
+                {{ form_row(form.hero.image)}}
+            </div>
+            <div id="hero_edit_text" style="display:contents;">
+                {{ form_row(form.hero.contenu) }}
+                <div style="display:flex;gap:1em;">
+                    <div style="flex:1">{{ form_row(form.hero.cta_link) }}</div>
+                    <div style="flex:1">{{ form_row(form.hero.cta_label) }}</div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <script>
+        (function() {
+            document.querySelectorAll("input[name='{{form.hero.type.vars.full_name}}']").forEach(i => i.addEventListener('change', function() {
+                document.getElementById('hero_edit').setAttribute("data-type", i.value);
+            }));
+        })()
+    </script>
+    <style>
+        #hero_edit[data-type=''] #hero_edit_image, #hero_edit[data-type=''] #hero_edit_text,
+        #hero_edit[data-type='small'] #hero_edit_text { display : none !important;}
+    </style>
+    {% endif %}
+
+    {% if form.faq is defined %}
+        <div class="full">{{ form_row(form.faq) }}</div>
+    {% endif %}
+
+    {% if form.temoignage is defined %}
+        <div class="full">{{ form_row(form.temoignage) }}</div>
+    {% endif %}
+
+    {% if form.meta is defined %}
+        {% include '_document/page/_bloc_meta.html.twig' %}
+    {% endif %}
+
+    <div class="full">
+        {{ form_widget(form.save) }}
+        {% if form.delete_button is defined %} | {{ form_widget(form.delete_button) }}{% endif %}
+    </div>
+{{ form_end(form) }}
+
+{% macro checktitle(id, title, open) %}
+<input type="checkbox" id="{{id}}" class="toggle-checkbox" {% if open %}checked="checked"{% endif %}><label for="{{id}}">{{title|raw}}<span></span></label>
+{% endmacro %}

@@ -1,0 +1,16 @@
+{% extends 'base_page.html.twig' %}
+
+{% block body %}
+    <main class="faq">
+        <section class="hero bando-small" style="--bg-image:url('{{ asset('build/images/bando-faq.jpg') }}');">
+            <h2>FAQ : LES RÉPONSES À VOS QUESTIONS PAR HARMONIE</h2>
+        </section>
+        <section class="faq_index">
+            <div class="data">
+            {% for faq in faqs %}
+                <a href="{{ faq.slug }}" class="faq_link" data-count="{{('00' ~ loop.index)|slice(-2)}}">{{ faq.title }}</a>
+            {% endfor %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

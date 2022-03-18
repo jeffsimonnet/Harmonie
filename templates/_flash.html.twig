@@ -1,0 +1,18 @@
+    {% set mode = app.request.server.get('APP_ENV') %}
+    {% if mode != 'prod' %}<a class="dev-ribbon left-top mode-{{mode}} server-{{site.host}}" title="Serveur {{site.host|capitalize}}">#</a>{% endif %}
+    <div id="flash-messages">
+        {% for label, messages in app.flashes %}
+        {% for message in messages %}
+        <div class="alert alert-{{label}}">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div>{{message}}</div>
+        </div>  
+        {% endfor %}
+        {% endfor %}
+        {% if form is defined and not form.vars.valid %}
+        <div class="alert alert-error">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div>Une erreur est survenue dans le formulaire ! Merci de vérifier !</div>
+        </div>  
+        {% endif %}
+    </div>

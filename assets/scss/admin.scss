@@ -1,0 +1,502 @@
+body.admin {
+    main {
+        display      : grid;
+        grid-template: "haut"auto "menu"auto "main"1fr "footer"auto;
+        min-height   : 100vh;
+
+        .menu {
+            grid-area: menu;
+            display  : none;
+        }
+
+        .header {
+            grid-area: haut;
+        }
+
+        .main {
+            grid-area: main;
+        }
+
+        footer {
+            grid-area: footer;
+        }
+
+        @include breakpoint(medium) {
+            grid-template: "menu haut"auto "menu main"1fr "menu footer"auto / 18rem 1fr;
+
+            .menu {
+                display: block;
+            }
+        }
+    }
+
+    a[href] {
+        color: $color30;
+    }
+
+    footer {
+        background: $color10;
+    }
+
+    a.btn_admin {
+        display    : block;
+        color      : $color1;
+        text-align : center;
+        position   : relative;
+        padding    : .5rem 2.5rem;
+        line-height: 1rem;
+        background : $color10;
+        white-space: nowrap;
+        user-select: none;
+
+        &:hover {
+            background-color: $color20;
+        }
+
+        span {
+            display: none;
+
+            @include breakpoint(large) {
+                display: inline;
+            }
+        }
+
+        &.grey {
+            background: $color30;
+        }
+
+        &.lightblue {
+            background: $color20;
+        }
+
+        &.icon {
+            padding: .5rem 2.5rem .5rem .5rem;
+        }
+
+        &.icon:after {
+            // content    : ""; // Note : ':after' won't show until 'content' is set
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            width          : 2rem;
+            height         : 2rem;
+            position       : absolute;
+            right          : 0;
+            top            : 0;
+            font-size      : 2rem;
+            line-height    : 1.5rem;
+            font-weight    : $font-bold;
+            border-left    : 1px solid $color1;
+        }
+    }
+
+    .header {
+        font-size  : .75rem;
+        color      : $color10;
+        background : $color1;
+        padding    : 1rem .9375rem;
+        line-height: 30px; // Equal to the picto size
+
+        span {
+            color      : $color20;
+            font-weight: $font-semibold;
+        }
+
+        .btn_private {
+            text-indent: -9999px;
+            position   : relative;
+            float      : right;
+
+            &.btn_deconnexion {
+                @include picto_svg($svg-connexion);
+            }
+
+            &.btn_menu {
+                @include picto_svg($svg-menu);
+            }
+        }
+
+        @include breakpoint(medium) {
+            font-size: 1rem;
+            padding  : .5rem .9375rem;
+
+            .btn_private.btn_menu {
+                display: none;
+            }
+        }
+
+        @include breakpoint(large) {
+            font-size: 1.125rem;
+            padding  : 1rem 2.1875rem;
+        }
+    }
+
+    .main {
+        display              : grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows   : max-content;
+        background           : $color13;
+
+        .bloc {
+            margin: 1em;
+            height: fit-content;
+        }
+    }
+
+    .bloc {
+        background: $color1;
+        color     : $color0;
+
+        .heading {
+            display       : flex;
+            align-items   : center;
+            flex-direction: row;
+            border-bottom : 2px $color20 solid;
+            padding       : 0 1rem;
+
+            &>* {
+                margin: 0 .2rem;
+            }
+
+            h3 {
+                font-size     : 1em;
+                margin        : 0 auto 0 0; // 'auto' pushes all other elements to the end of the line
+                line-height   : 3.25rem;
+                text-transform: uppercase;
+            }
+
+            a.btn_admin.add:after {
+                content: "+";
+            }
+
+            div.searchbox {
+                display   : flex;
+                height    : 2rem;
+                background: $color1;
+                border    : solid 1px $color10;
+
+                [type='text'] {
+                    height    : 1.5rem;
+                    margin    : .25rem;
+                    padding   : 0;
+                    border    : none;
+                    display   : inline-block;
+                    background: none;
+                    box-shadow: none;
+                    width     : 12rem;
+                    font-size : 1em;
+                    outline   : none;
+                }
+
+                button {
+                    text-indent: -9999px;
+                    margin     : .25rem;
+                    width      : 20px;
+                    height     : 20px;
+                }
+            }
+        }
+
+        .content {
+            padding: 1rem 1rem 1.5rem;
+        }
+
+        table[class=''] {
+            border    : none;
+            background: $color1;
+            padding   : 1em;
+            width     : 100%;
+            font-size : 90%;
+
+            thead {
+                background: none;
+                border    : none;
+
+                th {
+                    color      : #CCC;
+                    font-weight: normal;
+                }
+            }
+
+            tbody {
+                &:not(:last-of-type) {
+                    border       : none;
+                    border-bottom: 1em solid white;
+                }
+
+                tr {
+                    background: #EEE;
+                }
+            }
+        }
+
+        form,
+        .form-grid {
+            display              : grid;
+            max-width            : 60em;
+            grid-gap             : 1rem;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows   : minmax(0, auto) repeat(auto-fill, minmax(0, auto));
+            padding              : 1em;
+            background           : $color17;
+            border-radius        : 8px;
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                width        : 100%;
+                margin       : 1em 0;
+                border-bottom: solid 1px #CCC;
+            }
+
+            &>div {
+                grid-column-end: span 4;
+            }
+
+            &>div.short {
+                grid-column-end: span 2;
+            }
+
+            &>div.half {
+                grid-column-end: span 6;
+            }
+
+            &>div.double {
+                grid-column-end: span 8;
+            }
+
+            &>div.full {
+                grid-column: 1/-1;
+            }
+
+            &>div.photo {
+                grid-column-end: span 2;
+                grid-row       : span 2;
+            }
+
+            textarea {
+                width     : 100%;
+                resize    : vertical;
+                min-height: 4em;
+            }
+
+            .status-bloc {
+                grid-column  : -5/-1;
+                grid-row     : span 3;
+                padding      : 1em;
+                background   : $color16;
+                border-radius: 4px;
+            }
+
+            .image-select {
+                width           : 5em;
+                height          : 4em;
+                background-image: var(--select-image);
+                background-size : cover;
+            }
+
+            .slug-text {
+                display    : flex;
+                position   : relative;
+                align-items: baseline;
+
+                span {
+                    white-space: nowrap;
+                }
+
+                input {
+                    padding   : 0;
+                    width     : 100%;
+                    outline   : none;
+                    border    : none;
+                    box-shadow: none;
+                    background: $color1;
+                }
+
+                a {
+                    font-size: 2em;
+                    padding  : 0 5px;
+                    right    : 0;
+                }
+            }
+
+
+            fieldset {
+                display: contents;
+
+                &.one-liner>div {
+                    grid-column: 1 / span 4;
+                }
+
+                &:after {
+                    content        : "";
+                    grid-column-end: -1;
+                }
+            }
+
+            label[for] {
+                cursor: pointer;
+            }
+
+            label.required:after {
+                content: " *";
+            }
+
+            input.toggle-checkbox {
+                display: none;
+
+                &+label {
+                    grid-column: 1 / -1;
+                    display    : flex;
+                    align-items: center;
+                }
+
+                &:checked+label>span {
+                    background: $color20;
+
+                    &:before {
+                        left: 26px;
+                    }
+                }
+
+                &:not(:checked)+label+fieldset {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    footer {
+        color     : $color10;
+        background: $color1;
+        font-size : 1rem;
+        padding   : .5rem .9375rem;
+        text-align: center;
+    }
+}
+
+.seo-preview-input {
+    position: relative;
+
+    .seo-preview-counter {
+        position : absolute;
+        top      : 0;
+        right    : 0;
+        color    : #CCC;
+        font-size: 10px;
+    }
+
+    .seo-preview-progress {
+        position        : absolute;
+        height          : 4px;
+        bottom          : 0;
+        right           : 0;
+        left            : 0;
+        background-color: #CCC;
+
+        &::before {
+            content   : "";
+            display   : flex;
+            width     : var(--progress);
+            height    : 100%;
+            background: orange;
+        }
+
+        &.optimal::before {
+            background: green;
+        }
+
+        &.missing::before {
+            width     : 100%;
+            background: red;
+        }
+    }
+}
+
+.seo-preview {
+    border       : 1px solid #ccc;
+    margin       : 0 0 1rem;
+    background   : #fff;
+    border-radius: 5px;
+    padding      : .5rem;
+    overflow     : hidden;
+
+    .seo-preview-wrapper {
+        font-family: arial, sans-serif;
+        color      : #545454;
+        width      : 632px
+    }
+
+    cite {
+        font-size : 14px;
+        color     : #006621;
+        font-style: normal
+    }
+
+    .seo-preview-title {
+        display: block;
+        color  : #1a0dab
+    }
+
+    .seo-preview-description {
+        line-height  : 18.2px;
+        overflow-wrap: break-word;
+        font-family  : arial, ​sans-serif;
+        font-size    : 13px
+    }
+}
+
+div.custom_toggle_switch {
+    grid-column: span 2 !important;
+
+    input[type='checkbox'] {
+        display: none;
+
+        &:checked~span {
+            background: $color20;
+
+            &:before {
+                left: 30px;
+            }
+        }
+    }
+}
+
+input.toggle-checkbox+label>span,
+div.custom_toggle_switch>label>span {
+    margin-left   : auto;
+    display       : inline-block;
+    background    : $color30;
+    border-radius : 16px;
+    width         : 58px;
+    height        : 32px;
+    position      : relative;
+    vertical-align: middle;
+    transition    : background 0.25s;
+
+    &:before,
+    &:after {
+        content: "";
+    }
+
+    &:before {
+        display      : block;
+        background   : linear-gradient(to bottom, $color12 0%, $color17 100%);
+        border-radius: 50%;
+        box-shadow   : 0 0 0 1px rgba(0, 0, 0, 0.25);
+        width        : 24px;
+        height       : 24px;
+        position     : absolute;
+        top          : 4px;
+        left         : 4px;
+        transition   : left 0.25s;
+    }
+
+    &:hover:before {
+        background: linear-gradient(to bottom, $color14 0%, $color17 100%);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+}

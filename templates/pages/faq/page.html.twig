@@ -1,0 +1,44 @@
+{% extends 'base_page.html.twig' %}
+
+{% block menu_content %}
+    <li><a href="/faq/" style-hover>FAQ</a>
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <main class="faq">
+        <section class="hero bando-small" style="--bg-image:url('{{ asset('build/images/bando-faq.jpg') }}');">
+            <h2>{{ titre }}</h2>
+        </section>
+        <section class="content">
+            <div>{{ faq|raw }}</div>
+            <div class="divider"></div>
+            <section class="articles">
+                <h3>Questions similaires</h3>
+                {% for faq in faqs %}
+                    {{ block('lien_faq', 'pages/_modules/liens.html.twig') }}
+                {% endfor %}
+            </section>
+        </section>
+    </main>
+    <script>
+        function setCurrent(el, preserveDefault) {
+            if (!preserveDefault) {
+                let initial = document.querySelector('.default-target');
+                if(initial) initial.classList.remove('default-target');
+            }
+
+            let current = document.querySelector('.current');
+            if (current) current.classList.remove('current');
+
+            el = el.parentElement;
+            el.classList.add('current');
+        }
+
+        let hash = document.location.hash;
+        if(!hash) setCurrent(document.querySelector('.sommaire li:first-child a'), true);
+        else {
+            setCurrent(document.querySelector('.sommaire li a[href="' + hash + '"]'));
+        }
+    </script>
+{% endblock %}

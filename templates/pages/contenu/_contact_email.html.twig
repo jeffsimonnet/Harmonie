@@ -1,0 +1,9 @@
+<p>Demande de contact par le site internet</p>
+
+<p>Un visiteur a rempli les champs suivants :</p>
+<ul>
+    {% for k in ['civilite', 'nom', 'prenom', 'adresse', 'code_postal', 'ville', 'telephone', 'email', 'nb_logements', 'commentaire'] %}
+        {% set v = infos[k] %}
+        <li>{{ k }} : {% if v is iterable %}{{ v|join('|')}}{% else %}{{ v|striptags|raw }}{% endif %}<br/>
+        {% endfor %}
+</ul>

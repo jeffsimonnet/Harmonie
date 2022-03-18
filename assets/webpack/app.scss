@@ -1,0 +1,22 @@
+@import '../scss/_fonts.scss';
+@import '../scss/_variables.scss';
+@import '../scss/core.scss';
+
+@import '../scss/cookie-consent.scss';
+
+@import '../scss/page.scss';
+@import '../scss/page_shared.scss';
+@import '../scss/page_home.scss';
+@import '../scss/page_contenu.scss';
+@import '../scss/page_realisations.scss';
+@import '../scss/page_blog.scss';
+@import '../scss/page_faq.scss';
+@import '../scss/page_temoignage.scss';
+
+@import '../scss/funnel.scss';
+
+@import '~lity/dist/lity.css';
+button.lity-close {
+    padding:0;
+    border:0;
+}

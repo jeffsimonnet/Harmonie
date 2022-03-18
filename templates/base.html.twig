@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{{ encore_entry_link_tags('tools_admin') }}{% endblock %}
+        <title>{% block title %}{{site.sitename}}{% endblock %}</title>
+        {% block meta %}{% endblock %}
+        <link rel="icon" href="{{ asset("build/images/favicon.png") }}" />
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KZPX4SL');</script>
+        <!-- End Google Tag Manager -->
+    </head>
+    <body class="page">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZPX4SL"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+        {{ include("_flash.html.twig") }}
+        {{ include('cookie-consent.html.twig') }}
+        {% block menu %}{% include('pages/_nav.html.twig') with {menu_content : block('menu_content') ?? '' } %}{% endblock %}
+        {% block body %}<main>Aucun body défini !</main>{% endblock %}
+        {% block footer %}{{ include('pages/_footer.html.twig') }}{% endblock %}
+        {% block javascripts %}{{ encore_entry_script_tags('app') }}{{ encore_entry_script_tags('tools_admin') }}{% endblock %}
+    </body>
+</html>

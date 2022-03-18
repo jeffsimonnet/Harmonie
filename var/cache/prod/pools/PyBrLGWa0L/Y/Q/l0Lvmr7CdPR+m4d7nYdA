@@ -1,0 +1,34 @@
+<?php //%255BApp%255CController%255CDocument%255CPageController%2523edit%255D%255B1%255D
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+    ],
+    null,
+    [
+        'Symfony\\Component\\Routing\\Annotation\\Route' => [
+            'path' => [
+                '/admin/page/{page}/edit',
+                '/admin/page/{page}/edit',
+                '/admin/page/{page}/edit',
+                '/admin/page/{page}/edit',
+            ],
+            'name' => [
+                'admin_page_edit',
+                'admin_home_edit',
+                'admin_contenu_edit',
+                'admin_template_edit',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+        $o[2],
+        $o[3],
+    ],
+    []
+); }];

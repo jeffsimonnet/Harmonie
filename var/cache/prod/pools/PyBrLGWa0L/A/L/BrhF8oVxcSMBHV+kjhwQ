@@ -1,0 +1,21 @@
+<?php //%255BApp%255CDocument%255CPage%2524parent%255D%255B1%255D
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Gedmo\\Mapping\\Annotation\\TreeParent'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Gedmo\\Mapping\\Annotation\\TreeParent')),
+        clone ($p['Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\ReferenceOne'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\ReferenceOne')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'targetDocument' => [
+                1 => 'App\\Document\\Page',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+    ],
+    []
+); }];

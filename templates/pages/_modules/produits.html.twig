@@ -1,0 +1,29 @@
+{% set iter = num is defined ? range(1, num) : ((data is defined) ? data.texte|keys) %}
+{% if iter is not empty %}
+{% set id = (id is defined) ? (id ~ '_') : '' %}
+<section class="produits" id="{{id}}produits">
+    {{ block('title') ?? ((data is defined) ? ('<h3>' ~ data.titre|nl2br ~ '</h3>')|raw) }}
+    <div class="scroller">
+        <ul class="nostyle">
+            {% for k, i in iter %}
+                <li{% if loop.index == 1 %} class="active"{% endif %}><a href="#{{id}}panel_{{ k + 1 }}">{{ block('title_' ~ i) ?? ((data is defined) ? (data.texte[i].title|raw)) }}</a>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="panels">
+        <div>
+        {% for k, i in iter %}
+            <div class="panel{% if loop.index == 1 %} active{% endif %}" id="{{id}}panel_{{ k + 1 }}">
+                <a href="javascript:;" onclick="showMenuProduitsMobile(this)">{{ block('title_' ~ i) ?? ((data is defined) ? (data.texte[i].title|raw)) }}</a>
+                <div class="scroll">{{ block('panel_' ~ i) ?? ((data is defined) ? (data.texte[i].content|raw)) }}</div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        window.scrollPanels('#{{id}}produits', '{{id}}panel_');
+    });
+</script>
+{% endif %}

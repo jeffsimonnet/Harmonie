@@ -1,0 +1,15 @@
+{% extends 'base_page.html.twig' %}
+
+{% block menu_content %}<li><a href="#">Subventions</a>{% endblock %}
+
+    {% block body %}
+        <main class="content">
+            {{ include('pages/formulaire/_funnelSubventions.html.twig') }}
+            <section class="testimonial">
+                <h3>Nos clients</h3>
+                {% for temoignage in temoignages|slice(0, 3) %}
+                    {{ block('lien_temoignage', 'pages/_modules/liens.html.twig') }}
+                {% endfor %}
+            </section>
+        </main>
+    {% endblock %}

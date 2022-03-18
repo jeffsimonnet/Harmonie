@@ -1,0 +1,247 @@
+{% extends 'base_page.html.twig' %}
+
+{% block body %}
+    <main class="realisations">
+        <section class="hero bando-small" style="--bg-image:url({{asset('build/images/illus-ravalement.jpg')}}); margin:0;"><h3>Nos réalisations</h3></section>
+        <section class="liste-realisations">
+            {{ block('filtres') }}
+            <div class="data">
+                {% for row in realisations %}
+                <a class="realisation block-link hidden" href="{{ row.slug }}"
+                    data-type="{{row.content.categorie}}"
+                    data-ville="{{row.zone.code}}"
+                    data-dept="{{row.zone.parent.code}}"
+                    >
+                    <img src="{{ asset(row.content.image|default('build/images/illus-realisation.jpg')) }}" loading="lazy">
+                    <p><b><em>{{ row.title }}</em></b></p>
+                    <p>{{ row.content.ville }}</p>
+                    <ul>
+                        <li>Type de réalisation : <b>{{row.content.categorie|capitalize}}</b></li>
+                        <li>Département : <b>{{row.zone.parent.nom}}</b></li>
+                    </ul>
+                    <span class="arrow-right-before green">Voir la réalisation</span>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="full"><a href="javascript:;" class="btn primary green grow center" id="link-more">Voir encore plus de réalisations</a></div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block filtres %}
+    <div class="menu-mobile">
+        <ul class="reset">
+            <li><a href="javascript:;" onclick="toggleMenu()">Filtrer les réalisations</a>
+        </ul>
+    </div>
+    <div class="menu">
+        <div>
+            <a href="javascript:;" onclick="toggleMenu()">&times</a>
+            <span class="caps">Filtres</span>
+            <a href="javascript:;" action="reset" class="picto-reload-after">Réinitialiser les filtres</a>
+        </div>
+        <ul class="reset">
+            <li><a href="javascript:;">Type de chantier</a>
+                <div class="search-list" id="realisation-type">
+                    <ul class="nostyle">
+                    {% for type, label in types %}
+                        <li>
+                            <label>
+                                <input type="checkbox" value="{{ type }}"/>
+                                {{ label }}
+                            </label>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            <li><a href="javascript:;">Département</a>
+                <div class="search-text" id="realisation-dept">
+                    <div class="input-search search-icon-after"><input type="text"></div>
+                    <ul class="nostyle">
+                    {% for dept in departements %}
+                        <li>
+                            <label>
+                                <input type="checkbox" value="{{ dept.code }}"/>
+                                {{ dept.code }} - {{ dept.nom }}
+                            </label>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            <li><a href="javascript:;">Ville</a>
+                <div class="search-text" id="realisation-ville">
+                    <div class="input-search search-icon-after"><input type="text"></div>
+                    <ul class="nostyle">
+                    {% for ville in villes %}
+                        <li>
+                            <label>
+                                <input type="checkbox" value="{{ ville.code }}"/>
+                                {{ ville.nom }}
+                            </label>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+        </ul>
+        <div>
+            <a href="javascript:;" onclick="toggleMenu()" class="btn primary">Appliquer les filtres</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function() {
+            let maxView = 26;
+            let selectedCount;
+
+            let filterType = [];
+            let filterVille = [];
+            let filterDept = [];
+
+            let filterVille_init = [{{ app.request.query.get('ville')|join(',') }}].map(i => '' + i); // Indexes are made of strings and if we have int here, it won't work
+            let filterDept_init = [{{ app.request.query.get('departement')|join(',') }}].map(i => '' + i); // Indexes are made of strings and if we have int here, it won't work
+
+            let typesIndex = [];
+            let villeIndex = [];
+            let deptIndex = [];
+
+            let countGlobalEl = document.querySelector('.liste-realisations .menu-mobile a');
+
+            // opening menu mobile
+            window.toggleMenu = function() {
+                document.querySelector('.liste-realisations .menu').classList.toggle("view");
+                return false;
+            }
+
+            // opening menu
+            document.querySelectorAll('.liste-realisations .menu ul a').forEach(a => {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let menu = e.target.closest('li');
+                    document.querySelectorAll('.liste-realisations .menu li.open').forEach(li => li!=menu && li.classList.remove('open'));
+                    menu.classList.toggle('open');
+                    return false;
+                })
+            })
+            // closing menu (clicking outside)
+            document.addEventListener('click', function(e) {
+                let parent = e.target.closest('.menu')
+                if(!parent) document.querySelectorAll('.liste-realisations .menu li.open').forEach(li => li.classList.remove('open'));
+            })
+
+            document.getElementById('link-more').addEventListener('click', function() {
+                Array.from(document.querySelectorAll(".data .realisation.selected.hidden")).slice(0,maxView+1).forEach(tr => tr.classList.remove('hidden'));
+            })
+
+            setupCheckboxFilter(document.querySelector("#realisation-type"), filterType);
+            setupCheckboxFilter(document.querySelector("#realisation-ville"), filterVille);
+            setupCheckboxFilter(document.querySelector("#realisation-dept"), filterDept);
+
+            function setupCheckboxFilter(element, filter) {
+                element.addEventListener('change', function(e) {
+                    let checked = element.querySelectorAll("input:checked");
+                    updateCount(!!checked, e.target.closest('.menu>ul>li').firstElementChild, checked.length);
+                    let res = Array.from(checked).map(i => i.value);
+                    filter.length = 0
+                    if (res) filter.splice(0, res.length, ...res); // We replace only the content, otherwise the filter passed as argument wouldn't be modified
+                    sortTable();
+                })
+            }
+
+            document.querySelectorAll(".input-search input").forEach(i => i.addEventListener('input', function(e) {
+                let input = e.target;
+                let ul = input.parentElement.nextElementSibling;
+                ul.children.forEach(li => {
+                    console.log(li.textContent);
+                    li.classList.toggle('hidden', !li.textContent.toLowerCase().includes(input.value.toLowerCase()))
+                })
+            }))
+
+            document.querySelectorAll('.data .realisation').forEach(tr => {
+                addToIndex(typesIndex, (tr.getAttribute('data-type')), tr);
+                addToIndex(villeIndex, (tr.getAttribute('data-ville')), tr);
+                addToIndex(deptIndex, (tr.getAttribute('data-dept')), tr);
+            })
+
+            function initMenu() {
+                Array.from(document.querySelectorAll("#realisation-type input[type=checkbox]")).filter(i => filterType.includes(i.value)).forEach(i => {i.click()});
+                Array.from(document.querySelectorAll("#realisation-ville input[type=checkbox]")).filter(i => filterVille.includes(i.value)).forEach(i => {i.click()});
+                Array.from(document.querySelectorAll("#realisation-dept input[type=checkbox]")).filter(i => filterDept.includes(i.value)).forEach(i => {i.click()});
+            }
+
+            function updateCount(flag, menu, count = 1) {
+                if (flag && count) menu.setAttribute('data-count', count);
+                else menu.removeAttribute('data-count');
+
+                let countGlobal = Array.from(document.querySelectorAll('.menu [data-count]')).reduce((a,c) => a + 1 *c.getAttribute("data-count"), 0);
+                if (countGlobal) countGlobalEl.setAttribute('data-count', countGlobal);
+                else countGlobalEl.removeAttribute('data-count');
+            }
+
+            function sortTable() {
+                selectedCount = 0;
+                let table = document.querySelector('.data'); // 
+                let all = Array.from(table.querySelectorAll('.realisation'));
+                let allFromIndex = filter();
+                all.forEach(tr => {
+                    let hide = typeof allFromIndex !== 'undefined' && !allFromIndex.includes(tr);
+                    tr.classList.toggle('hidden', hide || selectedCount++ > maxView);
+                    tr.classList.toggle('selected', !hide);
+
+                    document.getElementById('link-more').classList.toggle('hidden', selectedCount <= maxView);
+                });
+
+                function filter() {
+                    let result = [];
+                    let filtered = false;
+                    if (filterType.length) {
+                        result.push(...filterType.filter(k => !!typesIndex[k]).map(k => typesIndex[k]));
+                        filtered = true;
+                    }
+                    if (filterVille.length) {
+                        result.push(...filterVille.filter(k => !!villeIndex[k]).map(k => villeIndex[k]));
+                        filtered = true;
+                    }
+                    if (filterDept.length) {
+                        result.push(...filterDept.filter(k => !!deptIndex[k]).map(k => deptIndex[k]));
+                        filtered = true;
+                    }
+                    if (filtered) return result.flat();
+                }
+            }
+
+            function addToIndex(index, key, value) {
+                key = '' + key; // Make sure this is a string !
+                if (!index[key]) index[key] = [];
+                index[key].push(value);
+            }
+
+            function resetFilters() {
+                // We don't reassign an array to these vars because it is used by reference by setupCheckboxFilter
+                filterType.length = 0;
+                filterVille.length = 0; filterVille.splice(0, filterVille_init.length, ...filterVille_init);
+                filterDept.length = 0; filterDept.splice(0, filterDept_init.length, ...filterDept_init);
+                document.querySelectorAll('.menu [data-count]').forEach(d => d.removeAttribute('data-count'));
+                initMenu();
+                sortTable();
+            }
+
+            document.querySelectorAll('.liste-realisations [action]').forEach(a => a.addEventListener('click', function(e) {
+                let action = e.target.getAttribute('action')
+                if (action == "reset") {
+                    resetFilters();
+                }
+                return false;                
+            }));
+
+            resetFilters();
+        })();
+    </script>
+{% endblock %}
+
+{% macro format(value, suffix = '') %}
+    {% if value is empty %}NC{% else %}{{value ~ suffix}}{% endif %}
+{% endmacro %}

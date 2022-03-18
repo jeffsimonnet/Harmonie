@@ -1,0 +1,109 @@
+main.temoignage {
+    section.temoignage_timeline {
+        &>.data {
+            grid-column          : 1/-1;
+            display              : grid;
+            grid-template-columns: 1fr;
+            grid-auto-flow       : row dense;
+            padding              : 0;
+            border               : 0;
+            margin               : 0 auto;
+            position             : relative;
+            vertical-align       : baseline;
+            margin-right         : 2em;
+
+            &::after {
+                content    : "";
+                position   : absolute;
+                top        : 0;
+                bottom     : 0;
+                right      : 0;
+                border-left: 1px solid #CCC6;
+                z-index    : -1;
+            }
+
+            &>.temoignage-card {
+                grid-row      : span 4;
+                display       : block;
+                padding-top   : 2em;
+                padding-bottom: 2em;
+                padding-right : 5em;
+                box-sizing    : border-box;
+                position      : relative;
+
+                &>.spot {
+                    position       : absolute;
+                    display        : flex;
+                    flex-direction : column;
+                    justify-content: center;
+                    align-items    : center;
+                    width          : 4em;
+                    height         : 4em;
+                    border-radius  : 4em;
+                    right          : -3em;
+                    font-size      : 0.9em;
+                    padding        : 1em;
+                    background     : $color17;
+                    border         : solid 1px #FFF;
+                    box-shadow     : 0px 0px 8px #0003;
+                }
+
+                &>.content {
+                    position        : relative;
+                    padding         : 1em;
+                    color           : $color12;
+                    background-color: $color17;
+                    border-bottom   : solid 4px $color20;
+
+                    span {
+                        color: $color10;
+                    }
+
+                    &::after {
+                        position     : absolute;
+                        content      : "";
+                        width        : 0;
+                        height       : 0;
+                        top          : 2em;
+                        right        : -20px;
+                        border-top   : 10px solid transparent;
+                        border-bottom: 10px solid transparent;
+                        border-left  : 10px solid $color17;
+                    }
+                }
+            }
+
+            @include breakpoint(medium) {
+                grid-template-columns: 1fr 1fr;
+                margin-right         : 0;
+
+                &::before {
+                    content    : "";
+                    grid-column: 2;
+                    grid-row   : 2;
+                }
+
+                &::after {
+                    right: 50%;
+                }
+
+                &>.temoignage-card {
+                    &:nth-child(even) {
+                        padding-right: 0;
+                        padding-left : 5em;
+
+                        .spot {
+                            left: -3em;
+                        }
+
+                        .content::after {
+                            border-left : none;
+                            border-right: 10px solid $color17;
+                            left        : -20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

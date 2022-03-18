@@ -1,0 +1,34 @@
+<?php //%255BApp%255CController%255CPagesController%2523blogCategory%255D%255B1%255D
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Annotation\\Route'],
+    ],
+    null,
+    [
+        'Symfony\\Component\\Routing\\Annotation\\Route' => [
+            'path' => [
+                '/blog/',
+                '/blog/{page}/',
+                '/blog/categorie/{category}/',
+                '/blog/categorie/{category}/{page}/',
+            ],
+            'name' => [
+                'blog_index',
+                'blog_index_page',
+                'blog_category',
+                'blog_category_page',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+        $o[2],
+        $o[3],
+    ],
+    []
+); }];
